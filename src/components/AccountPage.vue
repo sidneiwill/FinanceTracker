@@ -98,11 +98,10 @@
 
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { ref, computed, onMounted } from 'vue';
 import { useQuasar } from 'quasar';
-import Dexie from 'dexie';
-import db from '../db';
+import db from '../services/db';
 
 const $q = useQuasar();
 

@@ -24,8 +24,8 @@
 
 <script lang="ts">
 import { ref, onMounted, Ref, defineComponent } from 'vue';
-import type { Account } from '../db';
-import { db } from '../db';
+import type { Account } from '../services/db';
+import db from '../services/db';
 
 export default defineComponent({
     name: "ListarContas",
