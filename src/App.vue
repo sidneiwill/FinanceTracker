@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import ListarContas from './components/Transactions.vue';
-import Header from './components/Header.vue';
-import AccountPage from './components/AccountPage.vue';
+import TransactionsPage from './pages/TransactionsPage.vue';
+import Header from './components/DefaultHeader.vue';
+import AccountsPage from './pages/AccountsPage.vue';
 import { ref } from 'vue';
 
 const routes = {
-  transactions: ListarContas,
-  accounts : AccountPage
+  transactions: TransactionsPage,
+  accounts : AccountsPage
 }
 
 const currentPath = ref<string>('accounts');
