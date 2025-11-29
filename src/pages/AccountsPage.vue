@@ -60,7 +60,7 @@
                         <q-btn 
                           icon="delete"
                           color="red"
-                          @click="db.contas.delete(props.row.id).then(() => loadAccounts())"
+                          @click="db.accounts.delete(props.row.id).then(() => loadAccounts())"
                         />
                     </div>
                   </q-card>
@@ -116,7 +116,7 @@ const accounts = ref([]);
 
 async function loadAccounts() {
   try {
-    accounts.value = await db.contas.toArray();
+    accounts.value = await db.accounts.toArray();
   } catch (error) {
     console.error("Erro ao carregar contas do Dexie:", error);
     $q.notify({
@@ -145,7 +145,7 @@ const isFormValid = computed(() => {
 async function saveAccount() {
   if (isFormValid.value) {
     try {
-      const id = await db.contas.add({
+      const id = await db.accounts.add({
         name: newAccount.value.name.trim(),
       });
 

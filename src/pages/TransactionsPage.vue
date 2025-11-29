@@ -23,7 +23,7 @@
 
 
 <script lang="ts">
-import { ref, onMounted, Ref, defineComponent } from 'vue';
+import { ref, onMounted, type Ref, defineComponent } from 'vue';
 import type { Account } from '../services/db';
 import db from '../services/db';
 

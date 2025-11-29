@@ -24,35 +24,35 @@ export interface Transaction {
 }
 
 class MyDexie extends Dexie {
-  contas: Dexie.Table<Account, number>; // Define the 'contas' table
-  cartoes: Dexie.Table<Card, number>; // Define the 'cartoes' table
-  transacoes: Dexie.Table<Transaction, number>; // Define the 'transacoes' table
+  accounts: Dexie.Table<Account, number>; // Define the 'accounts' table
+  cards: Dexie.Table<Card, number>; // Define the 'cards' table
+  transactions: Dexie.Table<Transaction, number>; // Define the 'transactions' table
 
   constructor() {
     super('DashboardDB');
     this.version(1).stores({
-      contas: '++id, name',
-      cartoes: '++id, accountId, name, type',
-      transacoes: '++id, accountId, cardId, value, date, description, category, type'
+      accounts: '++id, name',
+      cards: '++id, accountId, name, type',
+      transactions: '++id, accountId, cardId, value, date, description, category, type'
     });
-    this.contas = this.table('contas');
-    this.cartoes = this.table('cartoes');
-    this.transacoes = this.table('transacoes');
+    this.accounts = this.table('accounts');
+    this.cards = this.table('cards');
+    this.transactions = this.table('transactions');
   }
 }
 
 const db = new MyDexie();
 
 export function addAcount(name: string): Promise<number> {
-  return db.contas.add({ name });
+  return db.accounts.add({ name });
 }
 
 export async function readAcounts(): Promise<Account[]> {
-  return db.contas.toArray().then(accts => accts.map(act => (alert(act.name), act)));
+  return db.accounts.toArray().then(accts => accts.map(act => (alert(act.name), act)));
 }
 
 export async function clearAcounts(): Promise<void> {
-  await db.contas.clear();
+  await db.accounts.clear();
 }
 
 
