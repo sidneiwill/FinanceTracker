@@ -1,5 +1,4 @@
 <script setup lang="ts">
-  import { addAcount, readAcounts, clearAcounts } from '../db';
 </script>
 
 
@@ -18,20 +17,16 @@
       <q-btn flat round dense icon="menu">
         <q-menu>
           <q-list>
-            <q-item clickable v-ripple:green @click='readAcounts()'>
-              <q-item-section>Listar Contas</q-item-section>
-            </q-item>
-            <q-item clickable v-ripple:red-5>
-              <q-item-section>Contas</q-item-section>
+            <q-item clickable v-ripple>
+              <q-item-section>Opcões</q-item-section>
             </q-item>
             <q-separator />
-            <q-item clickable v-ripple>
-              <q-item-section>Logout</q-item-section>
+            <q-item clickable v-ripple:red-5>
+              <q-item-section>Sair</q-item-section>
             </q-item>
           </q-list>
         </q-menu>
       </q-btn>
-
     </q-toolbar>
   </div>
 </template>

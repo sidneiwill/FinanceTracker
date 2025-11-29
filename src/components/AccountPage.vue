@@ -6,7 +6,7 @@
           <q-card flat bordered class="q-pa-sm bg-white">
             <div class="row items-center justify-between">
               <div class="text-h6 text-primary q-pa-sm">
-                <span class="text-weight-bold">Contas Cadastradas:</span> {{ accounts.length }}
+                <span class="text-weight-bold">Total de Contas:</span> {{ accounts.length }}
               </div>
 
               <q-btn
