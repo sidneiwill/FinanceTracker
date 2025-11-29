@@ -1,4 +1,16 @@
-<script setup lang="ts">
+<script lang="ts">
+import { ref } from 'vue'
+
+export default {
+  props: {
+    page: String,
+  },
+  setup (props) {
+    return {
+      tab: ref(props.page)
+    }
+  }
+}
 </script>
 
 <template>
@@ -7,9 +19,9 @@
       <!-- <q-btn flat round dense icon="menu" class="q-mr-sm" /> -->
       <q-toolbar-title>Finance Tracker</q-toolbar-title>
 
-      <q-tabs>
-        <q-tab name="Transactions" label="Transactions" to="/transactions" @click="$emit('change-page', 'transactions')" />
-        <q-tab name="Accounts" label="Accounts" to="/accounts" @click="$emit('change-page', 'accounts')" />
+      <q-tabs v-model="tab">
+        <q-tab name="transactions" label="Transactions" to="/transactions" @click="$emit('change-page', 'transactions')" />
+        <q-tab name="accounts" label="Accounts" to="/accounts" @click="$emit('change-page', 'accounts')" />
       </q-tabs>
       
       <q-separator vertical inset />

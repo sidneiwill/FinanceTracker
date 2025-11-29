@@ -18,7 +18,7 @@ function changePage(path: string) {
 
 <template>
   <div>
-    <Header @change-page="changePage"></Header>
+    <Header :page="currentPath" @change-page="changePage"></Header>
     <component :is="routes[currentPath]" />
     <!-- <AccountPage></AccountPage> -->
     <!-- <HelloWorld></HelloWorld> -->
