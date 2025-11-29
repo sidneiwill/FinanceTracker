@@ -60,7 +60,7 @@
                         <q-btn 
                           icon="delete"
                           color="red"
-                          @click="deleteAccount(props.row.id)" 
+                          @click="db.contas.delete(props.row.id).then(() => loadAccounts())"
                         />
                     </div>
                   </q-card>
@@ -130,7 +130,7 @@ async function loadAccounts() {
 onMounted(loadAccounts);
 
 const showCreateModal = ref(false);
-const deleteAccountModal = ref(false);
+// const deleteAccountModal = ref(false);
 
 const newAccount = ref({
   name: '',
@@ -194,7 +194,3 @@ async function saveAccount() {
   flex-grow: 1;
 }
 </style>
-
-export default {
-  name: 'AccountPage',
-}
