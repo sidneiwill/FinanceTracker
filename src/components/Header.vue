@@ -1,17 +1,16 @@
 <script setup lang="ts">
 </script>
 
-
 <template>
   <div class="q-pa-md">
     <q-toolbar class="bg-primary text-white">
       <!-- <q-btn flat round dense icon="menu" class="q-mr-sm" /> -->
       <q-toolbar-title>Finance Tracker</q-toolbar-title>
 
-<q-tabs>
-  <q-tab name="home" label="Home" to="/" />
-  <q-tab name="accounts" label="Contas" to="/contas" />
-</q-tabs>
+      <q-tabs>
+        <q-tab name="Transactions" label="Transactions" to="/transactions" @click="$emit('change-page', 'transactions')" />
+        <q-tab name="Accounts" label="Accounts" to="/accounts" @click="$emit('change-page', 'accounts')" />
+      </q-tabs>
       
       <q-separator vertical inset />
       <q-btn flat round dense icon="menu">
@@ -30,7 +29,3 @@
     </q-toolbar>
   </div>
 </template>
-
-export default {
-  name: 'Header',
-}

@@ -1,15 +1,26 @@
 <script setup lang="ts">
 import ListarContas from './components/Transactions.vue';
-import HelloWorld from './components/HelloWorld.vue';
 import Header from './components/Header.vue';
 import AccountPage from './components/AccountPage.vue';
+import { ref } from 'vue';
 
+const routes = {
+  transactions: ListarContas,
+  accounts : AccountPage
+}
+
+const currentPath = ref<string>('accounts');
+
+function changePage(path: string) {
+  currentPath.value = path;
+};
 </script>
 
 <template>
   <div>
-    <Header></Header>
-    <AccountPage></AccountPage>
+    <Header @change-page="changePage"></Header>
+    <component :is="routes[currentPath]" />
+    <!-- <AccountPage></AccountPage> -->
     <!-- <HelloWorld></HelloWorld> -->
     <!-- <ListarContas></ListarContas> -->
   </div>
