@@ -24,8 +24,6 @@ const donutSeries = reactive([44, 55, 13, 43, 23])
       <h1>R$ 2.300,00</h1>
       <apexchart width="380" type="donut" :options="accounts" :series="donutSeries"/>
 
-
-
       <apexchart width="500" type="bar" :options="mouths" :series="barSeries"/>
 
       <apexchart width="500" type="bar" :options="mouths" :series="barSeries"/>

@@ -1,4 +1,4 @@
-import Dexie, { type Table } from 'dexie';
+import Dexie from 'dexie';
 
 export interface Account {
     id?: number;
@@ -23,36 +23,38 @@ export interface Transaction {
   type: "entrada" | "saída";
 }
 
-// 2. Definição do Tipo de Banco de Dados
-export class DashboardDB extends Dexie {
-    // Tabela 'items' tipada com a interface Item e chave primária number
-    // O '!' é o Non-null assertion operator
-    accounts!: Table<Account, number>; 
-    cards!: Table<Card, number>;
-    movements!: Table<Transaction, number>; 
+class MyDexie extends Dexie {
+    contas: Dexie.Table<Account, number>; // Define the 'contas' table
+    cartoes: Dexie.Table<Card, number>; // Define the 'cartoes' table
+    transacoes: Dexie.Table<Transaction, number>; // Define the 'transacoes' table
 
     constructor() {
-      super('DashboardDB');
-      this.version(1).stores({
-          accounts: '++id, bankName', 
-          cards: '++id, accountId, cardName', 
-          movements: '++id, accountId, cardId, date, type, *flags', 
-      });
-  }
+        super('DashboardDB');
+        this.version(1).stores({
+            contas: '++id, name',
+            cartoes: '++id, accountId, name, type',
+            transacoes: '++id, accountId, cardId, value, date, description, category, type'
+        });
+        this.contas = this.table('contas');
+        this.cartoes = this.table('cartoes');
+        this.transacoes = this.table('transacoes');
+    }
 }
 
+const db = new MyDexie();
+
 export function addAcount(name: string): Promise<number> {
-    return db.accounts.add({ name });
+    return db.contas.add({ name });
 }
 
 export async function readAcounts(): Promise<Account[]> {  
-  return db.accounts.toArray().then(accts => accts.map(act => (alert(act.name), act) ));
+  return db.contas.toArray().then(accts => accts.map(act => (alert(act.name), act) ));
   }
 
 export async function clearAcounts(): Promise<void> {
-  await db.accounts.clear();
+  await db.contas.clear();
 }
 
 
 // 3. Criação da instância
-export const db = new DashboardDB();
+export default db;

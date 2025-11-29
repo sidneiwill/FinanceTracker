@@ -2,13 +2,16 @@
 import ListarContas from './components/Transactions.vue';
 import HelloWorld from './components/HelloWorld.vue';
 import Header from './components/Header.vue';
+import AccountPage from './components/AccountPage.vue';
+
 </script>
 
 <template>
   <div>
     <Header></Header>
-    <HelloWorld></HelloWorld>
-    <ListarContas></ListarContas>
+    <AccountPage></AccountPage>
+    <!-- <HelloWorld></HelloWorld> -->
+    <!-- <ListarContas></ListarContas> -->
   </div>
 </template>
 
