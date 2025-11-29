@@ -24,6 +24,7 @@
           <q-card flat bordered class="q-pa-md bg-white">
             <div class="text-subtitle1 text-grey-8 q-mb-sm">Filtrar Contas</div>
             <q-input
+              v-model="filter"
               outlined
               dense
               placeholder="Pesquisar por nome ou ID..."
@@ -35,7 +36,7 @@
           <q-card flat bordered class="bg-white">
             <q-table
               title="Tabela Contas"
-              :rows="accounts"
+              :rows="filteredAccounts"
               :columns="columns"
               row-key="id"
               :rows-per-page-options="[10, 20, 50, 0]"
@@ -99,7 +100,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useQuasar } from 'quasar';
 import db from '../services/db';
 
@@ -113,10 +114,14 @@ const columns = [
 ];
 
 const accounts = ref([]);
+const filteredAccounts = ref([]);
+const filter = ref('');
 
 async function loadAccounts() {
   try {
     accounts.value = await db.accounts.toArray();
+    filter.value = '';
+    filteredAccounts.value = accounts.value;
   } catch (error) {
     console.error("Erro ao carregar contas do Dexie:", error);
     $q.notify({
@@ -141,6 +146,17 @@ const newAccount = ref({
 const isFormValid = computed(() => {
   return newAccount.value.name.trim() !== '';
 });
+
+watch(
+  filter, 
+  (value) => {
+    if (!value.trim()) filteredAccounts.value = accounts.value;
+    filteredAccounts.value = accounts.value?.filter((account) => 
+      account?.id?.toString().toLowerCase()?.includes(value.trim().toLowerCase()) 
+      || account?.name.toLowerCase()?.includes(value.trim().toLowerCase())
+    );
+  }
+)
 
 async function saveAccount() {
   if (isFormValid.value) {
