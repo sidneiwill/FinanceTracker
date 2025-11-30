@@ -44,19 +44,20 @@
               :hide-header="$q.screen.lt.md"
               class="q-px-md"
             >
-              <template v-slot:item="props">
-                <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4">
-                  <q-card flat bordered class="q-pa-md">
-                    <q-list dense>
-                      <q-item v-for="col in props.cols.filter(col => col.name !== 'id')" :key="col.name">
-                        <q-item-section>
-                          <q-item-label>{{ col.label }}:</q-item-label>
-                        </q-item-section>
-                        <q-item-section side>
-                          <q-item-label caption>{{ col.value }}</q-item-label>
-                        </q-item-section>
-                      </q-item>
-                    </q-list>
+
+            <!-- Responsivo -->
+            <template v-slot:item="props">
+              <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4">
+                <q-card flat bordered class="q-pa-md">
+                  <q-list dense>
+                    <q-item v-for="col in props.cols.filter((col: { name: string; }) => col.name !== 'id')" :key="col.name">
+                      <q-item-section>
+                        <q-item-label>{{ col.label }}:</q-item-label>
+                      </q-item-section>
+                      <q-item-section side>
+                        <q-item-label caption>{{ col.value }}</q-item-label>
+                      </q-item-section>
+                    </q-item>
                     <div class="row justify-end q-mt-md">
                         <q-btn 
                           icon="delete"
@@ -64,9 +65,36 @@
                           @click="db.accounts.delete(props.row.id).then(() => loadAccounts())"
                         />
                     </div>
-                  </q-card>
-                </div>
+                  </q-list>
+                </q-card>
+              </div>
+            </template>
+
+              <!-- Desktop -->
+            <template v-slot:body="props">
+                <tr 
+                  @contextmenu.prevent="openMenu($event, props.row)"
+                  :class="props.rowClass"
+                >
+                  <td v-for="col in props.cols" :key="col.name">
+                    {{ props.row[col.field] }}
+                  </td>
+                </tr>
+                
+                <q-menu ref="menu" context-menu touch-position>
+                  <q-list dense>
+                    <q-item clickable v-close-popup @click="editar(selectedRow)">
+                      <q-item-section>Editar</q-item-section>
+                    </q-item>
+                    <q-item clickable  v-close-popup @click="db.accounts.delete(props.row.id).then(() => loadAccounts())">
+                      <q-item-section>Apagar</q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-menu>
+                           
               </template>
+
+
             </q-table>
           </q-card>
         </div>
@@ -103,14 +131,15 @@
 import { ref, computed, onMounted, watch } from 'vue';
 import { useQuasar } from 'quasar';
 import db from '../services/db';
+import { Account } from '../services/db';
 
 const $q = useQuasar();
 
 // Definição das colunas para a QTable
 const columns = [
-  { name: 'id', label: 'ID', field: 'id', sortable: true, align: 'left', format: val => val ? `#${val}` : 'N/A' },
+  { name: 'id', label: 'ID', field: 'id', sortable: true, align: 'left', format: (val: number)  => val ? `#${val}` : 'N/A' },
   { name: 'name', required: true, label: 'Nome', field: 'name', align: 'left', sortable: true },
-  { name: 'balance', label: 'Saldo Inicial', field: 'balance', align: 'right', sortable: true, format: val => `R$ ${val ? val.toFixed(2) : '0.00'}` },
+  { name: 'balance', label: 'Saldo Inicial', field: 'balance', align: 'right', sortable: true, format: (val: number) => `R$ ${val ? val.toFixed(2) : '0.00'}` },
 ];
 
 const accounts = ref([]);
@@ -151,7 +180,7 @@ watch(
   filter, 
   (value) => {
     if (!value.trim()) filteredAccounts.value = accounts.value;
-    filteredAccounts.value = accounts.value?.filter((account) => 
+    filteredAccounts.value = accounts.value?.filter((account: Account) => 
       account?.id?.toString().toLowerCase()?.includes(value.trim().toLowerCase()) 
       || account?.name.toLowerCase()?.includes(value.trim().toLowerCase())
     );
@@ -175,8 +204,8 @@ async function saveAccount() {
         icon: 'check',
         position: 'top',
       });
-
-      showCreateModal.value = false;
+      // Fechar modal ao adicionar a conta, caso seja desejado adicionar mais de uma conta, manter o modal aberto
+      // showCreateModal.value = false;
       newAccount.value = {
         name: '',
       };
